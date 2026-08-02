@@ -131,6 +131,8 @@ The training and evaluation programs use seed-specific completion markers and ar
 
 The corrected ablation audit verifies 10 expected trained component models, no missing files, no parameter mismatches, and the SHA-256 identities of both combined result tables. The Random Forest pretraining audit verifies all seven authoritative artifacts and all five fixed Parquet partitions.
 
+This repository is released under the MIT License. Citation metadata is provided in CITATION.cff. Replace the manuscript’s repository URL placeholders with the final GitHub URL before submission.
+
 ## Environment record
 
 XGBoost 3.3.0 and CPU execution were recorded for the completed primary experiment. The original Python and scikit-learn versions were not captured in the frozen metadata and are therefore marked as unavailable rather than retrospectively inferred. `requirements.txt` defines a tested-compatible reconstruction environment.
