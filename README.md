@@ -140,3 +140,5 @@ XGBoost 3.3.0 and CPU execution were recorded for the completed primary experime
 ## Data, licensing and citation
 
 This repository does not redistribute CICIDS2017 or CSE-CIC-IDS2018. Users must follow the dataset providers’ terms. Before public release, the author should select a software license, complete `CITATION.cff.template`, and replace the manuscript’s repository URL placeholders with the final GitHub URL.
+
+This repository is released under the MIT License. Citation metadata is provided in CITATION.cff.
