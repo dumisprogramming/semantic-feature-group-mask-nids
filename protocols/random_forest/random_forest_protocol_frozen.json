@@ -1,0 +1,108 @@
+{
+  "protocol_name": "Random Forest model-family confirmatory replication",
+  "protocol_version": "1.0",
+  "status": "FROZEN_BEFORE_TRAINING",
+  "relationship_to_primary_study": "Secondary model-family sensitivity analysis; the original five-seed XGBoost analysis remains primary.",
+  "confirmatory_seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "source_dataset": "CICIDS2017",
+  "external_target_dataset": "CSE-CIC-IDS2018",
+  "predictor_count": 77,
+  "semantic_group_count": 4,
+  "partition_rows": {
+    "source_train.parquet": 598043,
+    "source_validation.parquet": 152964,
+    "source_calibration.parquet": 99084,
+    "source_test.parquet": 150178,
+    "target_test_sealed.parquet": 999143
+  },
+  "fixed_model_configuration": {
+    "estimator": "sklearn.ensemble.RandomForestClassifier",
+    "n_estimators": 300,
+    "criterion": "gini",
+    "max_depth": 20,
+    "min_samples_split": 10,
+    "min_samples_leaf": 5,
+    "max_features": "sqrt",
+    "bootstrap": true,
+    "max_samples": 0.7,
+    "class_weight": "balanced_subsample",
+    "n_jobs": -1,
+    "random_state": "confirmatory seed"
+  },
+  "ordinary_baseline_training": "Complete source training data only",
+  "group_aware_training": {
+    "complete_copy_per_training_row": 1,
+    "random_single_group_mask_copy_per_row": 1,
+    "group_availability_indicators": 4,
+    "pairwise_masks_used_during_training": false,
+    "mask_assignment_seed": "confirmatory seed"
+  },
+  "calibration": {
+    "method": "Platt scaling",
+    "data": "Fixed source_calibration.parquet only",
+    "split_method": "Stratified 50:50 calibrator-fit/policy split",
+    "split_random_state": 2026,
+    "target_labels_used": false
+  },
+  "classification_threshold": "Source-policy F1 maximization",
+  "selective_coverages": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "evaluated_conditions": {
+    "complete": 1,
+    "single_group_loss": 4,
+    "unseen_pairwise_group_loss": 6
+  },
+  "primary_endpoints": [
+    "Mean source unseen-pairwise F1",
+    "Mean target unseen-pairwise F1",
+    "Mean source unseen-pairwise AURC",
+    "Mean target unseen-pairwise AURC"
+  ],
+  "target_result_rules": [
+    "No target-label training",
+    "No target-label calibration",
+    "No target-dependent threshold selection",
+    "No removal of unfavorable conditions",
+    "All five confirmatory seeds will be reported"
+  ],
+  "frozen_authoritative_files": {
+    "source_train.parquet": {
+      "size_bytes": 51466157,
+      "sha256": "86ae7c647d977b03c78a5d11015a9593419c0152a423a828193892dc986bc802"
+    },
+    "source_validation.parquet": {
+      "size_bytes": 13606424,
+      "sha256": "7050d66bab8517ec906bede397427db8ce02ba86eb5c786c848abaa14dfbd44a"
+    },
+    "source_calibration.parquet": {
+      "size_bytes": 9068259,
+      "sha256": "ebdc64ab4a5ec4f5f31997d622935634c33511047bdcb8e569d61c155833a1d3"
+    },
+    "source_test.parquet": {
+      "size_bytes": 13452756,
+      "sha256": "e672ed2f09fba99008a5f1bfef6268f07f2a0b1535263f5995f95cd60e7fff53"
+    },
+    "target_test_sealed.parquet": {
+      "size_bytes": 86326515,
+      "sha256": "32a64f64693ab1ba75cde3374efc4931c350ff147a30fe837899e215cedec375"
+    },
+    "experiment_metadata.json": {
+      "size_bytes": 4324,
+      "sha256": "918258686daa13d9209f8ceabda7599dc2b2594ca597b0ed32d972cc226aac37"
+    },
+    "source_median_imputer.joblib": {
+      "size_bytes": 2475,
+      "sha256": "d0a132d2ccef22f7d4702023eec7b27c844673e93a0be262c63aa47685cf536f"
+    }
+  },
+  "frozen_on_utc": "2026-07-20T09:26:07.344095+00:00"
+}

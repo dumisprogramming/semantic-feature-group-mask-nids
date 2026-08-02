@@ -1,0 +1,86 @@
+{
+  "calibration": {
+    "calibrator_fit_rows": 48889,
+    "method": "Platt scaling on source-only model logits",
+    "policy_selection_rows": 50195,
+    "split_seed": 2026,
+    "stratified": true
+  },
+  "classification_threshold": "maximise source policy-partition F1",
+  "confirmatory_seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "correction_reason": "The exploratory ablation reconstructed default booster settings from loaded models. This corrected run uses the exact parameters stored in replication_protocol_frozen.json.",
+  "desired_coverages": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "exploratory_results_retained_at": "component_ablation",
+  "missing_group_replacement": "source-training median",
+  "pairwise_loss": {
+    "used_for_calibration": false,
+    "used_for_early_stopping": false,
+    "used_for_evaluation": true,
+    "used_for_selective_policy": false,
+    "used_for_threshold_selection": false,
+    "used_for_training": false
+  },
+  "primary_condition": "average across six unseen pairwise losses per seed",
+  "primary_metric": "attack-class F1",
+  "selective_confidence": "max(p_attack, 1-p_attack)",
+  "semantic_groups": 4,
+  "source_dataset": "CICIDS2017",
+  "status": "corrected and frozen before ablation retraining",
+  "study": "five-seed component ablation",
+  "target_dataset": "CSE-CIC-IDS2018",
+  "target_usage": "evaluation only after all source-only policies freeze",
+  "task": "binary attack detection",
+  "variants": {
+    "augmentation_only": {
+      "availability_indicators": false,
+      "masked_copy_augmentation": true,
+      "training_conditions": [
+        "complete",
+        "one randomly assigned single-group-loss copy per row"
+      ]
+    },
+    "full_method": {
+      "action": "reuse completed group-aware confirmatory results",
+      "availability_indicators": true,
+      "masked_copy_augmentation": true
+    },
+    "indicators_only": {
+      "availability_indicators": true,
+      "masked_copy_augmentation": false,
+      "training_conditions": [
+        "complete only"
+      ]
+    },
+    "ordinary_baseline": {
+      "action": "reuse completed confirmatory results",
+      "availability_indicators": false,
+      "masked_copy_augmentation": false
+    }
+  },
+  "xgboost": {
+    "colsample_bytree": 0.8,
+    "early_stopping_rounds": 50,
+    "evaluation_metric": "logloss",
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_child_weight": 5,
+    "n_estimators": 1200,
+    "objective": "binary:logistic",
+    "parameter_source": "replication_protocol_frozen.json/fixed_model_configuration",
+    "reg_alpha": 0.01,
+    "reg_lambda": 1.0,
+    "subsample": 0.8,
+    "training_device": "cpu",
+    "tree_method": "hist"
+  }
+}

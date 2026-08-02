@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "freeze_status": "NEW_PROTOCOL_FROZEN",
+  "authoritative_file_audit": [
+    {
+      "file": "source_train.parquet",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 51466157,
+      "actual_size": 51466157,
+      "size_match": true,
+      "expected_sha256": "86ae7c647d977b03c78a5d11015a9593419c0152a423a828193892dc986bc802",
+      "actual_sha256": "86ae7c647d977b03c78a5d11015a9593419c0152a423a828193892dc986bc802",
+      "sha256_match": true
+    },
+    {
+      "file": "source_validation.parquet",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 13606424,
+      "actual_size": 13606424,
+      "size_match": true,
+      "expected_sha256": "7050d66bab8517ec906bede397427db8ce02ba86eb5c786c848abaa14dfbd44a",
+      "actual_sha256": "7050d66bab8517ec906bede397427db8ce02ba86eb5c786c848abaa14dfbd44a",
+      "sha256_match": true
+    },
+    {
+      "file": "source_calibration.parquet",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 9068259,
+      "actual_size": 9068259,
+      "size_match": true,
+      "expected_sha256": "ebdc64ab4a5ec4f5f31997d622935634c33511047bdcb8e569d61c155833a1d3",
+      "actual_sha256": "ebdc64ab4a5ec4f5f31997d622935634c33511047bdcb8e569d61c155833a1d3",
+      "sha256_match": true
+    },
+    {
+      "file": "source_test.parquet",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 13452756,
+      "actual_size": 13452756,
+      "size_match": true,
+      "expected_sha256": "e672ed2f09fba99008a5f1bfef6268f07f2a0b1535263f5995f95cd60e7fff53",
+      "actual_sha256": "e672ed2f09fba99008a5f1bfef6268f07f2a0b1535263f5995f95cd60e7fff53",
+      "sha256_match": true
+    },
+    {
+      "file": "target_test_sealed.parquet",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 86326515,
+      "actual_size": 86326515,
+      "size_match": true,
+      "expected_sha256": "32a64f64693ab1ba75cde3374efc4931c350ff147a30fe837899e215cedec375",
+      "actual_sha256": "32a64f64693ab1ba75cde3374efc4931c350ff147a30fe837899e215cedec375",
+      "sha256_match": true
+    },
+    {
+      "file": "experiment_metadata.json",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 4324,
+      "actual_size": 4324,
+      "size_match": true,
+      "expected_sha256": "918258686daa13d9209f8ceabda7599dc2b2594ca597b0ed32d972cc226aac37",
+      "actual_sha256": "918258686daa13d9209f8ceabda7599dc2b2594ca597b0ed32d972cc226aac37",
+      "sha256_match": true
+    },
+    {
+      "file": "source_median_imputer.joblib",
+      "status": "PASS",
+      "exists": true,
+      "expected_size": 2475,
+      "actual_size": 2475,
+      "size_match": true,
+      "expected_sha256": "d0a132d2ccef22f7d4702023eec7b27c844673e93a0be262c63aa47685cf536f",
+      "actual_sha256": "d0a132d2ccef22f7d4702023eec7b27c844673e93a0be262c63aa47685cf536f",
+      "sha256_match": true
+    }
+  ],
+  "parquet_audit": [
+    {
+      "file": "source_train.parquet",
+      "rows": 598043,
+      "expected_rows": 598043,
+      "row_count_match": true,
+      "columns": 78,
+      "missing_predictors": [],
+      "additional_columns": [
+        "target"
+      ],
+      "target_present": true
+    },
+    {
+      "file": "source_validation.parquet",
+      "rows": 152964,
+      "expected_rows": 152964,
+      "row_count_match": true,
+      "columns": 78,
+      "missing_predictors": [],
+      "additional_columns": [
+        "target"
+      ],
+      "target_present": true
+    },
+    {
+      "file": "source_calibration.parquet",
+      "rows": 99084,
+      "expected_rows": 99084,
+      "row_count_match": true,
+      "columns": 78,
+      "missing_predictors": [],
+      "additional_columns": [
+        "target"
+      ],
+      "target_present": true
+    },
+    {
+      "file": "source_test.parquet",
+      "rows": 150178,
+      "expected_rows": 150178,
+      "row_count_match": true,
+      "columns": 78,
+      "missing_predictors": [],
+      "additional_columns": [
+        "target"
+      ],
+      "target_present": true
+    },
+    {
+      "file": "target_test_sealed.parquet",
+      "rows": 999143,
+      "expected_rows": 999143,
+      "row_count_match": true,
+      "columns": 78,
+      "missing_predictors": [],
+      "additional_columns": [
+        "target"
+      ],
+      "target_present": true
+    }
+  ]
+}

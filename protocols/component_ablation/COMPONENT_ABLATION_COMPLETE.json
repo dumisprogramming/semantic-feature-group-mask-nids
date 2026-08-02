@@ -1,0 +1,19 @@
+{
+  "models": [
+    "ordinary_baseline",
+    "indicators_only",
+    "augmentation_only",
+    "full_method"
+  ],
+  "nonselective_rows": 440,
+  "primary_summary": "component_ablation_primary_summary.csv",
+  "seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "selective_rows": 1320,
+  "status": "component_ablation_complete"
+}

@@ -1,0 +1,112 @@
+{
+  "protocol_name": "Five-seed confirmatory replication",
+  "protocol_version": "1.0",
+  "frozen_on": "2026-07-19T08:05:00.706389",
+  "exploratory_pilot_seed": 2026,
+  "pilot_included_in_primary_summary": false,
+  "confirmatory_seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "source_dataset": "CICIDS2017",
+  "external_target_dataset": "CSE-CIC-IDS2018",
+  "source_train_rows": 598043,
+  "source_validation_rows": 152964,
+  "source_calibration_rows": 99084,
+  "source_test_rows": 150178,
+  "target_test_rows": 999143,
+  "predictor_count": 77,
+  "semantic_group_count": 4,
+  "fixed_model_configuration": {
+    "objective": "binary:logistic",
+    "n_estimators": 1200,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_alpha": 0.01,
+    "reg_lambda": 1.0,
+    "tree_method": "hist",
+    "device": "cpu",
+    "eval_metric": "logloss",
+    "early_stopping_rounds": 50,
+    "n_jobs": -1
+  },
+  "ordinary_baseline_training": "Complete source training data only",
+  "group_aware_training": {
+    "complete_copy_per_training_row": 1,
+    "random_single_group_mask_copy_per_row": 1,
+    "group_availability_indicators": 4,
+    "pairwise_masks_used_during_training": false
+  },
+  "calibration": {
+    "method": "Platt scaling",
+    "calibrator_data": "Fixed source calibrator subset",
+    "policy_data": "Fixed source policy subset",
+    "target_labels_used": false
+  },
+  "classification_threshold": "Source-policy F1 maximization",
+  "selective_coverages": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "primary_endpoints": [
+    "Mean source unseen-pairwise F1",
+    "Mean target unseen-pairwise F1",
+    "Mean source unseen-pairwise AURC",
+    "Mean target unseen-pairwise AURC"
+  ],
+  "secondary_endpoints": [
+    "Recall",
+    "Precision",
+    "False-positive rate",
+    "False-negative rate",
+    "ECE",
+    "Brier score",
+    "Selective risk",
+    "Actual coverage",
+    "Class-conditional coverage"
+  ],
+  "target_result_rules": [
+    "No target-label training",
+    "No target-label calibration",
+    "No target-dependent threshold selection",
+    "No removal of unfavorable conditions",
+    "All five confirmatory seeds will be reported"
+  ],
+  "frozen_files": {
+    "source_train.parquet": {
+      "size_bytes": 51466157,
+      "sha256": "86ae7c647d977b03c78a5d11015a9593419c0152a423a828193892dc986bc802"
+    },
+    "source_validation.parquet": {
+      "size_bytes": 13606424,
+      "sha256": "7050d66bab8517ec906bede397427db8ce02ba86eb5c786c848abaa14dfbd44a"
+    },
+    "source_calibration.parquet": {
+      "size_bytes": 9068259,
+      "sha256": "ebdc64ab4a5ec4f5f31997d622935634c33511047bdcb8e569d61c155833a1d3"
+    },
+    "source_test.parquet": {
+      "size_bytes": 13452756,
+      "sha256": "e672ed2f09fba99008a5f1bfef6268f07f2a0b1535263f5995f95cd60e7fff53"
+    },
+    "target_test_sealed.parquet": {
+      "size_bytes": 86326515,
+      "sha256": "32a64f64693ab1ba75cde3374efc4931c350ff147a30fe837899e215cedec375"
+    },
+    "experiment_metadata.json": {
+      "size_bytes": 4324,
+      "sha256": "918258686daa13d9209f8ceabda7599dc2b2594ca597b0ed32d972cc226aac37"
+    },
+    "source_median_imputer.joblib": {
+      "size_bytes": 2475,
+      "sha256": "d0a132d2ccef22f7d4702023eec7b27c844673e93a0be262c63aa47685cf536f"
+    }
+  }
+}

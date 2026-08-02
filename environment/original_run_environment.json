@@ -1,0 +1,18 @@
+{
+  "status": "PARTIALLY_RECORDED",
+  "primary_experiment": {
+    "model": "XGBoost",
+    "xgboost_version": "3.3.0",
+    "device": "CPU",
+    "python_version": "not captured in the frozen run metadata",
+    "scikit_learn_version": "not captured in the frozen run metadata"
+  },
+  "secondary_experiment": {
+    "model": "sklearn.ensemble.RandomForestClassifier",
+    "device": "CPU",
+    "python_version": "not captured in the frozen run metadata",
+    "scikit_learn_version": "not captured in the frozen run metadata"
+  },
+  "policy": "Unknown original versions are explicitly marked as not captured rather than inferred retrospectively.",
+  "reproduction_dependencies": "See ../requirements.txt"
+}

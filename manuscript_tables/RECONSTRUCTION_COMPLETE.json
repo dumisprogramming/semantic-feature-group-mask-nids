@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "seed_order": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "aggregation_rule": "average conditions within seed, then analyze five seed-level values",
+  "generated_tables": {
+    "Table_6.csv": 8,
+    "Table_7.csv": 6,
+    "Table_8.csv": 6,
+    "Table_9.csv": 6,
+    "Table_10.csv": 4
+  }
+}

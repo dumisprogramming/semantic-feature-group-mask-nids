@@ -1,0 +1,19 @@
+{
+  "status": "complete",
+  "seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "nonselective_rows": 220,
+  "selective_rows": 660,
+  "paired_rows": 110,
+  "target_used_for": "final evaluation only",
+  "result_sha256": {
+    "random_forest_five_seed_nonselective_all.csv": "b94f5cab968b139fc82a9c8b791fbef7302d2704c5bc492a8c475e454af30df7",
+    "random_forest_five_seed_selective_all.csv": "517af329bb903e7008b81b54c2dc004014387758a4db3851cdd6d445f912b010",
+    "random_forest_five_seed_paired_counts_all.csv": "95706b0b835a98058648c101ba452ca3bc73989dd486cc99cfd704a94e94bf99"
+  }
+}

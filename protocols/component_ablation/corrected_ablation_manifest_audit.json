@@ -1,0 +1,25 @@
+{
+  "audit_status": "PASS",
+  "audited_folder": "/content/drive/MyDrive/research/researchdata/NIDS_Research/NIDS_Research_Checkpoints/five_seed_confirmatory_replication/component_ablation_corrected",
+  "authoritative_protocol_mismatches": {},
+  "component_protocol_mismatches": {},
+  "model_rows_expected": 10,
+  "model_rows_found": 10,
+  "models_with_missing_files": 0,
+  "models_with_parameter_mismatches": 0,
+  "combined_outputs": {
+    "component_ablation_nonselective_all.csv": {
+      "exists": true,
+      "rows": 440,
+      "expected_rows": 440,
+      "sha256": "a165a900895371bb796e889ae095d48f9bf8ff1223dfde8fc01511114a70ea13"
+    },
+    "component_ablation_selective_all.csv": {
+      "exists": true,
+      "rows": 1320,
+      "expected_rows": 1320,
+      "sha256": "aefe3b82a0d98c16511583328d5d52d2eeb33e3ecd0a0a8db000d3e89d25a32c"
+    }
+  },
+  "next_action": "Use corrected combined tables for the manuscript."
+}
