@@ -42,7 +42,7 @@ The repository verifier performs exact row-count, seed, condition, model, protoc
 
 These are publication-administration items, not experimental mismatches:
 
-1. Create the final GitHub repository and replace the manuscript's `[REPOSITORY URL]` placeholders.
+1. Create the final GitHub repository and replace the manuscript's [`[REPOSITORY URL]`](https://github.com/dumisprogramming/semantic-feature-group-mask-nids.git) placeholders.
 2. Remove the duplicated “Writing—review and editing” role from the CRediT statement.
 3. Select a software license approved by all authors.
-4. Complete and rename `CITATION.cff.template` after the final repository URL and publication metadata are known.
+4. Complete and rename `CITATION.cff` after the final repository URL and publication metadata are known.
