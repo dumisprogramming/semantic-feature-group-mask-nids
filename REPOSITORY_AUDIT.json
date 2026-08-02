@@ -1,0 +1,67 @@
+{
+  "configuration": {
+    "predictors": 77,
+    "group_sizes": [
+      32,
+      23,
+      12,
+      10
+    ],
+    "renamed_target_columns": 50,
+    "seeds": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ]
+  },
+  "xgboost": {
+    "nonselective_rows": 220,
+    "selective_rows": 660,
+    "paired_rows": 110
+  },
+  "random_forest": {
+    "nonselective_rows": 220,
+    "selective_rows": 660,
+    "paired_rows": 110
+  },
+  "ablation": {
+    "nonselective_rows": 440,
+    "selective_rows": 1320,
+    "summary_rows": 88
+  },
+  "provenance": {
+    "component_ablation_audit": "PASS",
+    "component_models_audited": 10,
+    "random_forest_pretraining_audit": "PASS",
+    "random_forest_frozen_artifacts": 7
+  },
+  "tables": {
+    "checked": true,
+    "row_counts": {
+      "6": 8,
+      "7": 6,
+      "8": 6,
+      "9": 6,
+      "10": 4
+    }
+  },
+  "files": {
+    "scripts": 11,
+    "figures_checked": [
+      "Figure_1.pdf",
+      "Figure_1.png",
+      "Figure_2.pdf",
+      "Figure_2.png",
+      "Figure_3.pdf",
+      "Figure_3.png",
+      "Figure_4.pdf",
+      "Figure_4.png",
+      "Figure_5.pdf",
+      "Figure_5.png"
+    ]
+  },
+  "status": "PASS",
+  "problems": []
+}
