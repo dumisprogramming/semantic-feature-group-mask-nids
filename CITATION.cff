@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the software and associated research paper."
+type: software
+
+title: "Semantic Feature-Group Mask Augmentation for Flow-Based Intrusion Detection under Unseen Telemetry Loss and Dataset Shift"
+
+authors:
+  - family-names: "Bakhtiar"
+    given-names: "S. M. Bahauddin"
+    affiliation: "Department of Management Information Systems, University of Dhaka, Dhaka, Bangladesh"
+
+version: "1.0.0"
+date-released: 2026-08-02
+
+repository-code: "https://github.com/dumisprogramming/semantic-feature-group-mask-nids"
+url: "https://github.com/dumisprogramming/semantic-feature-group-mask-nids"
+
+license: MIT
