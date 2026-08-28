@@ -1,0 +1,20 @@
+{
+  "condition_rows_per_model_dataset": 43,
+  "frozen_on_utc": "2026-08-28T09:19:24Z",
+  "job_counts": {
+    "forward": 50,
+    "new_if_gate_passes": 85,
+    "reused": 5,
+    "reverse_if_gate_passes": 40,
+    "total_if_gate_passes": 90
+  },
+  "job_matrix_sha256": "5645129509e7bb9e5dc1e07294d883c56b2d9b1a679c7b5613445da19892ffa4",
+  "nonselective_rows_if_gate_passes": 7740,
+  "problems": [],
+  "protocol_sha256": "a4217a2e5da97c068e65ec3eb0a9a2506496aca8e86423a9fe8e3df9b8feaf72",
+  "protocol_version": "2.0.0",
+  "random_partition_count": 5,
+  "random_partitions_sha256": "4a24788ca3727793671781681f61f33f08fac93b77b8314af405e6072f1d8464",
+  "selective_rows_if_gate_passes": 23220,
+  "status": "PASS"
+}

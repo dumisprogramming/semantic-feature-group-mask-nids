@@ -1,0 +1,295 @@
+{
+  "protocol_name": "Revision-v2 matched comparative telemetry-loss study",
+  "protocol_version": "2.0.0",
+  "status": "FROZEN_BEFORE_ANY_REVISION_V2_TRAINING",
+  "frozen_on_utc": "2026-08-28T09:19:24Z",
+  "motivation": {
+    "decision_source": "JISA editorial desk-rejection",
+    "criticisms_addressed": [
+      "insufficient novelty",
+      "insufficient technical depth",
+      "insufficient comparative analysis",
+      "superficial presentation"
+    ],
+    "revision_rule": "No revision-v2 result may be inspected before this protocol and its derived job matrix pass validation."
+  },
+  "lineage": {
+    "submitted_release": "v1.0.0",
+    "submitted_commit_sha": "484b54b72bbdb9644e487d70623847009c3ba0dc",
+    "submitted_release_immutable": true,
+    "revision_branch_name": "revision-v2-comparative",
+    "revision_base_commit_sha": "95eada4e573ce8f719945a64ee032d9de8ac6958",
+    "uploaded_source_zip_sha256": "4f0e5906328991f7efac13f37ccabd7091e17748771ec268423b8de183510795",
+    "legacy_results_role": "Historical context only unless a variant is explicitly marked reusable below."
+  },
+  "scientific_question": "Does expert semantic grouping improve robustness to unseen semantic telemetry-family loss beyond an equal corruption budget, random non-semantic grouping, and ordinary training?",
+  "task": "binary flow-based network intrusion detection",
+  "predictor_schema": {
+    "predictor_count": 77,
+    "semantic_group_count": 4,
+    "semantic_group_sizes": [32, 23, 12, 10],
+    "definition_file": "config/semantic_feature_groups.json",
+    "feature_order_file": "config/experiment_metadata.json",
+    "group_definitions_may_change_after_freeze": false
+  },
+  "directions": {
+    "forward": {
+      "source_dataset": "CICIDS2017",
+      "target_dataset": "CSE-CIC-IDS2018",
+      "artifact_role": "Reuse the v1 frozen partitions and source-fitted imputer after hash verification.",
+      "partition_rows": {
+        "source_train": 598043,
+        "source_validation": 152964,
+        "source_calibration": 99084,
+        "source_test": 150178,
+        "target_test": 999143
+      },
+      "authoritative_artifact_protocol": "protocols/replication_protocol_frozen.json"
+    },
+    "reverse": {
+      "source_dataset": "CSE-CIC-IDS2018",
+      "target_dataset": "CICIDS2017",
+      "source_population_rows": 16232943,
+      "target_population_rows": 2830743,
+      "source_sample_rows": 1000000,
+      "target_sample_rows": 1000000,
+      "source_sampling_seed": 2026,
+      "target_sampling_seed": 2027,
+      "partition_method": "Use the deterministic feature-hash buckets from scripts/prepare_data.py: 60% train, 15% validation, 10% calibration, and 15% source test.",
+      "imputation": "Fit a new median imputer on the reverse source-training partition only.",
+      "artifact_rule": "Prepare and hash all reverse-direction artifacts before any reverse-direction training."
+    }
+  },
+  "model": {
+    "family": "XGBoost",
+    "estimator": "xgboost.XGBClassifier",
+    "configuration_source": "protocols/replication_protocol_frozen.json/fixed_model_configuration",
+    "fixed_configuration": {
+      "objective": "binary:logistic",
+      "n_estimators": 1200,
+      "learning_rate": 0.05,
+      "max_depth": 6,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "reg_alpha": 0.01,
+      "reg_lambda": 1.0,
+      "tree_method": "hist",
+      "device": "cpu",
+      "eval_metric": "logloss",
+      "early_stopping_rounds": 50,
+      "n_jobs": -1
+    },
+    "confirmatory_model_seeds": [2027, 2028, 2029, 2030, 2031],
+    "exploratory_pilot_seed": 2026,
+    "pilot_excluded_from_confirmatory_summaries": true
+  },
+  "matched_development_schedule": {
+    "applies_to_every_new_or_retrained_variant": true,
+    "training_replacement": "source_training_median",
+    "early_stopping_conditions": [
+      "complete",
+      "each of the four semantic singleton losses with source-training-median replacement"
+    ],
+    "calibration_conditions": [
+      "complete",
+      "each of the four semantic singleton losses with source-training-median replacement"
+    ],
+    "policy_selection_conditions": [
+      "complete",
+      "each of the four semantic singleton losses with source-training-median replacement"
+    ],
+    "calibration_method": "Platt scaling on source-only model logits",
+    "calibration_split_seed": 2026,
+    "classification_threshold": "Maximize attack-class F1 on the source policy partition pooled across the matched development conditions.",
+    "selective_coverages": [0.8, 0.9, 0.95],
+    "target_data_used": false,
+    "reason": "The submitted study used different validation, calibration, and policy schedules for the ordinary and augmented models. Revision v2 removes that comparison confound."
+  },
+  "variants": {
+    "matched_complete_baseline": {
+      "directions": ["forward", "reverse"],
+      "action": "train_new",
+      "training_rows_multiplier": 1,
+      "training_corruption": "none",
+      "pairwise_semantic_loss_seen_during_training": false,
+      "role": "Ordinary-training baseline under the same source-only development schedule as every robust variant."
+    },
+    "iid_matched_feature_dropout": {
+      "directions": ["forward", "reverse"],
+      "action": "train_new",
+      "training_rows_multiplier": 2,
+      "training_corruption": "For each masked copy, draw one budget uniformly from [32, 23, 12, 10], then mask that many unique predictors sampled without replacement.",
+      "assignment_seed": "confirmatory model seed",
+      "pairwise_semantic_loss_seen_during_training": false,
+      "role": "Matched independent-feature corruption control."
+    },
+    "random_partition_group_mask": {
+      "directions": ["forward", "reverse"],
+      "action": "train_new_for_each_partition_seed",
+      "training_rows_multiplier": 2,
+      "training_corruption": "Partition the 77 predictors into random disjoint groups of sizes 32, 23, 12, and 10; assign one random group to each masked copy.",
+      "partition_generation": "numpy.random.default_rng(partition_seed).permutation over the feature order in config/experiment_metadata.json, sliced in group-size order [32, 23, 12, 10].",
+      "partition_seeds": [4101, 4102, 4103, 4104, 4105],
+      "assignment_seed": "confirmatory model seed",
+      "pairwise_semantic_loss_seen_during_training": false,
+      "evaluation_losses": "Always evaluate on the fixed expert semantic groups, not on the random training groups.",
+      "role": "Tests whether semantics add value beyond block size and grouped corruption."
+    },
+    "semantic_uniform_singleton": {
+      "directions": ["forward", "reverse"],
+      "action": {
+        "forward": "reuse_five_augmentation_only_models_after_artifact_hash_verification",
+        "reverse": "train_new"
+      },
+      "training_rows_multiplier": 2,
+      "training_corruption": "One seed-assigned expert semantic singleton mask per copied row.",
+      "assignment_seed": "confirmatory model seed",
+      "availability_indicators": false,
+      "pairwise_semantic_loss_seen_during_training": false,
+      "role": "Primary semantic method."
+    },
+    "semantic_exhaustive_singleton": {
+      "directions": ["forward"],
+      "action": "train_new",
+      "training_rows_multiplier": 5,
+      "training_corruption": "Retain the complete row and create one source-median copy for each of the four expert semantic singleton losses.",
+      "pairwise_semantic_loss_seen_during_training": false,
+      "role": "Separates semantic coverage from the one-mask-per-row computational budget."
+    },
+    "seen_pairwise_oracle_upper_bound": {
+      "directions": ["forward"],
+      "action": "train_new",
+      "training_rows_multiplier": 2,
+      "training_corruption": "Retain the complete row and create one copy with a uniformly selected expert semantic pairwise loss.",
+      "assignment_seed": "confirmatory model seed",
+      "pairwise_semantic_loss_seen_during_training": true,
+      "role": "Clearly labelled non-generalization upper bound; excluded from claims that pairwise loss is unseen."
+    }
+  },
+  "evaluation": {
+    "semantic_conditions": {
+      "complete": 1,
+      "single_group": 4,
+      "pairwise_group": 6,
+      "triple_group": 4,
+      "all_four_groups": 0
+    },
+    "all_four_groups_excluded_reason": "No predictive information remains when every predictor group is replaced.",
+    "replacement_mechanisms_for_masked_conditions": [
+      "source_training_median",
+      "zero",
+      "native_nan"
+    ],
+    "complete_condition_evaluated_once": true,
+    "masked_conditions_per_replacement": 14,
+    "condition_rows_per_model_dataset": 43,
+    "datasets_per_direction": ["source_test", "sealed_target_test"],
+    "target_loading_rule": "For each direction, load target features and labels only after every model, calibrator, classification threshold, and selective cutoff for that direction is frozen.",
+    "primary_endpoint": "Attack-class F1 averaged across the six semantic pairwise losses within each model seed, using source-training-median replacement.",
+    "primary_dataset": "Forward-direction source test",
+    "key_secondary_endpoints": [
+      "Forward sealed-target pairwise-average attack-class F1",
+      "Minimum condition-level attack-class F1",
+      "Area under the F1-versus-loss-severity curve across complete, singleton, pairwise, and triple loss",
+      "Precision",
+      "Recall",
+      "False-positive rate",
+      "False-negative rate",
+      "ROC-AUC",
+      "PR-AUC",
+      "MCC",
+      "ECE",
+      "Brier score",
+      "Log loss",
+      "AURC",
+      "Actual and class-conditional coverage"
+    ],
+    "negative_results_retained": true
+  },
+  "execution_stages": [
+    {
+      "stage": "A1",
+      "description": "Verify v1 forward artifacts; train or restore all forward models; freeze every source-only calibrator and policy.",
+      "target_labels_accessible": false
+    },
+    {
+      "stage": "A2",
+      "description": "Evaluate all forward models on the forward source test and compute the source-only continuation gate.",
+      "target_labels_accessible": false
+    },
+    {
+      "stage": "A3",
+      "description": "After every forward source policy is frozen, evaluate all precommitted forward models on the sealed target; do not select or remove methods or conditions.",
+      "target_labels_accessible": true
+    },
+    {
+      "stage": "B",
+      "description": "If the source-only continuation gate passes, prepare frozen reverse artifacts and execute all precommitted reverse models and evaluations.",
+      "target_labels_accessible": "Only under the reverse-direction role defined in this protocol."
+    }
+  ],
+  "source_only_continuation_gate": {
+    "uses_forward_target_results": false,
+    "comparison_condition": "Forward source-test pairwise-average attack-class F1 with source-training-median replacement.",
+    "semantic_variant": "semantic_uniform_singleton",
+    "comparators": [
+      "iid_matched_feature_dropout",
+      "random_partition_group_mask averaged over the five partition seeds within each model seed"
+    ],
+    "pass_requirements": [
+      "The semantic-minus-comparator mean difference is positive for both comparators.",
+      "The two-sided 95% t confidence-interval lower bound across five model seeds is greater than zero for both comparisons.",
+      "At least four of five model seeds favor semantic_uniform_singleton for both comparisons.",
+      "Complete-telemetry F1 for semantic_uniform_singleton is no more than 0.005 below matched_complete_baseline."
+    ],
+    "if_pass": "Proceed to the reverse-direction stage and preserve a method-comparison framing.",
+    "if_fail": "Do not claim that semantic grouping is the causal advantage. Stop reverse-direction training unless separately frozen as a benchmark extension; reframe the paper as a controlled robustness benchmark and transfer-failure study."
+  },
+  "statistical_analysis": {
+    "unit_for_primary_inference": "Model seed after averaging the six pairwise conditions; random-partition controls are first averaged over partition seeds within model seed.",
+    "reported_statistics": [
+      "five-seed mean difference",
+      "sample standard deviation",
+      "two-sided 95% t confidence interval",
+      "paired t-test",
+      "exact two-sided Wilcoxon signed-rank test",
+      "five-seed win count"
+    ],
+    "small_sample_note": "With five nonzero pairs, the smallest exact two-sided Wilcoxon p-value is 0.0625; effect sizes and confidence intervals remain primary.",
+    "multiplicity": "Holm adjustment within each dataset, replacement mechanism, and predeclared comparison family.",
+    "random_partition_reporting": "Report the full distribution across all five fixed random partitions; no partition may be removed."
+  },
+  "expected_training_jobs": {
+    "forward_total": 50,
+    "forward_new": 45,
+    "forward_reused": 5,
+    "reverse_total_if_gate_passes": 40,
+    "reverse_new_if_gate_passes": 40,
+    "grand_total_if_gate_passes": 90,
+    "grand_total_new_if_gate_passes": 85,
+    "grand_total_reused": 5
+  },
+  "expected_evaluation_rows_if_gate_passes": {
+    "nonselective": 7740,
+    "selective_at_three_coverages": 23220,
+    "formula_nonselective": "90 model jobs * 2 datasets * 43 condition/replacement rows"
+  },
+  "claim_rules": {
+    "semantic_method_claim_allowed_only_if_source_gate_passes": true,
+    "cross_dataset_claim_must_report_both_directions_if_stage_b_runs": true,
+    "oracle_excluded_from_unseen_pairwise_claim": true,
+    "target_results_may_not_select_methods": true,
+    "target_results_may_not_select_replacement_mechanisms": true,
+    "all_reversals_and_failed_conditions_must_be_reported": true,
+    "no_first_ever_or_universal_robustness_language": true
+  },
+  "prohibitions": [
+    "Do not modify, delete, or retag release v1.0.0.",
+    "Do not overwrite any v1 model, policy, result, or completion marker.",
+    "Do not inspect revision-v2 target labels before all source-only policies for that direction are frozen.",
+    "Do not alter model seeds, random-partition seeds, group definitions, endpoints, continuation rules, or unfavorable conditions after training begins.",
+    "Do not merge exploratory pilot results into confirmatory summaries.",
+    "Do not edit the manuscript's results or conclusions until revision-v2 aggregate outputs are frozen and audited."
+  ]
+}
