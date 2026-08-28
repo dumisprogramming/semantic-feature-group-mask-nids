@@ -6,6 +6,7 @@
 - `protocols/replication_protocol_frozen.json`: primary five-seed frozen protocol and authoritative artifact hashes.
 - `protocols/component_ablation/`: corrected component protocol, completion markers and PASS manifest audit.
 - `protocols/random_forest/`: frozen Random Forest protocol, PASS pretraining audit and five-seed evaluation completion marker.
+- `protocols/revision_v2/`: pre-training matched-comparison protocol, five frozen random feature partitions, 90-job execution matrix and PASS protocol audit. It contains no revision-v2 results.
 - `scripts/evaluate_xgboost.py`, `scripts/frozen_component_ablation.py` and the Random Forest scripts: restartable execution programs.
 
 ## Reconstruction entry points
@@ -16,6 +17,7 @@
 - `scripts/aggregate_analysis.py`: deterministic reconstruction of manuscript Tables 6–10.
 - `scripts/generate_figures.py`: deterministic reconstruction of manuscript Figures 1–5.
 - `scripts/verify_repository.py`: configuration, provenance, result, table and figure audit.
+- `scripts/validate_revision_v2_protocol.py`: deterministic materialization and verification of the frozen revision-v2 partitions, job matrix and protocol audit.
 
 ## Intentionally excluded
 

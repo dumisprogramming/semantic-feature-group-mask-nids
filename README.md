@@ -2,6 +2,14 @@
 
 Reproducibility package for **“Semantic Feature-Group Mask Augmentation for Flow-Based Intrusion Detection under Unseen Telemetry Loss and Dataset Shift.”**
 
+## Revision-v2 development status
+
+The immutable submitted record remains release `v1.0.0`. The branch
+`revision-v2-comparative` adds a pre-training matched-comparison protocol in
+`protocols/revision_v2/`. No revision-v2 experimental result is currently
+claimed. The frozen protocol must pass
+`scripts/validate_revision_v2_protocol.py --check` before new training begins.
+
 The study trains on CICIDS2017 and performs a final zero-target evaluation on a sealed CSE-CIC-IDS2018 partition. The intervention creates one additional source-training copy per flow and replaces one randomly selected semantic feature group with source-training medians. The component ablation identifies **mask augmentation without availability indicators** as the parsimonious primary method. The full augmentation-plus-indicators model is retained as an ablation component and for the Random Forest model-family sensitivity analysis.
 
 ## Main experimental boundary
@@ -33,6 +41,7 @@ protocols/
   replication_protocol_frozen.json
   component_ablation/
   random_forest/
+  revision_v2/
 scripts/
   prepare_data.py
   train_xgboost.py
@@ -45,6 +54,7 @@ scripts/
   aggregate_analysis.py
   generate_figures.py
   verify_repository.py
+  validate_revision_v2_protocol.py
 results/
   xgboost/
   ablation/
