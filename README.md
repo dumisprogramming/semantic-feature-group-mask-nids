@@ -9,6 +9,12 @@ The immutable submitted record remains release `v1.0.0`. The branch
 `protocols/revision_v2/`. No revision-v2 experimental result is currently
 claimed. The frozen protocol must pass
 `scripts/validate_revision_v2_protocol.py --check` before new training begins.
+The stage-gated implementation is in `scripts/run_revision_v2.py`, with
+reverse preparation and execution auditing provided by
+`scripts/prepare_revision_v2_reverse.py` and
+`scripts/audit_revision_v2_run.py`. No revision-v2 training result is committed.
+The exact restartable command sequence is documented in
+`REVISION_V2_RUNBOOK.md`.
 
 The study trains on CICIDS2017 and performs a final zero-target evaluation on a sealed CSE-CIC-IDS2018 partition. The intervention creates one additional source-training copy per flow and replaces one randomly selected semantic feature group with source-training medians. The component ablation identifies **mask augmentation without availability indicators** as the parsimonious primary method. The full augmentation-plus-indicators model is retained as an ablation component and for the Random Forest model-family sensitivity analysis.
 
@@ -55,6 +61,11 @@ scripts/
   generate_figures.py
   verify_repository.py
   validate_revision_v2_protocol.py
+  run_revision_v2.py
+  prepare_revision_v2_reverse.py
+  audit_revision_v2_run.py
+tests/
+  test_revision_v2_runner.py
 results/
   xgboost/
   ablation/

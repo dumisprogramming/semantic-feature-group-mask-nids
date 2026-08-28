@@ -1,33 +1,45 @@
-# GitHub upload checklist
+# Revision-v2 GitHub update checklist
 
-## Before public release
+## Branch boundary
 
-1. Confirm the final paper title and author order.
-2. Complete `CITATION.cff.template` and rename it to `CITATION.cff`.
-3. Select and add a software `LICENSE` approved by all authors.
-4. Replace any placeholder repository URL, journal, and DOI fields.
-5. Do not add raw datasets, Parquet partitions, model binaries, or Google Drive credentials.
+1. Work only on branch `revision-v2-comparative`.
+2. Confirm the branch is based on `main` and is ahead of `main` by the intended
+   revision-v2 commits.
+3. Do not merge the branch into `main` and do not move, delete or recreate tag
+   `v1.0.0` while the comparative experiments are incomplete.
+4. Do not commit raw datasets, Parquet checkpoints, fitted models, credentials
+   or per-flow prediction arrays.
 
 ## Upload through the GitHub website
 
-1. Sign in to GitHub and choose **New repository**.
-2. Suggested repository name: `semantic-feature-group-mask-nids`.
-3. Add a short description based on the first paragraph of `README.md`.
-4. Select **Private** while the manuscript is under review unless the target journal requires a public repository.
-5. Do not ask GitHub to create another README, `.gitignore`, or license during repository creation because this package already contains the first two and the license choice is pending.
-6. Open the empty repository and choose **uploading an existing file**.
-7. Extract the supplied ZIP locally, open the extracted repository folder, and upload its contents while preserving the folder structure.
-8. Use the commit message: `Initial reproducibility package`.
-9. Open the repository after committing and confirm that the README renders and the `figures/`, `scripts/`, `results/`, `config/`, and `protocols/` folders are visible.
+1. Select branch `revision-v2-comparative` before uploading.
+2. Extract the supplied update ZIP locally.
+3. Upload the files at the repository root while preserving the `protocols/`,
+   `scripts/` and `tests/` paths.
+4. Replace files with the same paths when GitHub asks; do not create a second
+   nested repository directory.
+5. Use the commit message:
 
-## Final verification
+   ```text
+   Add restartable revision-v2 comparative runner
+   ```
 
-Run locally or in Colab from the repository root:
+6. Select **Commit directly to the revision-v2-comparative branch**.
+7. Do not select **Create a new branch** and do not open or merge a pull request.
+
+## Validation before training
+
+Run from the repository root in the pinned environment:
 
 ```bash
-python scripts/aggregate_analysis.py
-python scripts/generate_figures.py
+python scripts/validate_revision_v2_protocol.py --check
+python -m unittest discover -s tests -v
+python scripts/run_revision_v2.py plan --direction forward
+python scripts/run_revision_v2.py train \
+  --direction forward \
+  --job-id forward_matched_complete_baseline_seed_2027 \
+  --dry-run
 python scripts/verify_repository.py --require-figures --require-tables
 ```
 
-The required final status is `PASS` with an empty `problems` list.
+All validation commands must pass before any revision-v2 training begins.

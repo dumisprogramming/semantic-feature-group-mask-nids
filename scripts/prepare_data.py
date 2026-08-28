@@ -19,7 +19,6 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
-
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = REPOSITORY_ROOT / "config" / "semantic_feature_groups.json"
 
@@ -86,7 +85,9 @@ def load_semantic_configuration(path: Path) -> tuple[dict[str, list[str]], list[
     groups = payload["semantic_groups"]
     predictors = sorted(feature for values in groups.values() for feature in values)
     if len(predictors) != payload["predictor_count"]:
-        raise ValueError("Semantic-group predictor count does not match the configuration.")
+        raise ValueError(
+            "Semantic-group predictor count does not match the configuration."
+        )
     if len(predictors) != len(set(predictors)):
         raise ValueError("A predictor is assigned to more than one semantic group.")
     return groups, predictors
@@ -119,8 +120,8 @@ def validate_schemas(
             header = normalized_header(path, dataset)
             if header != expected:
                 problems.append(
-                    f"{dataset}/{path.name}: missing={sorted(expected-header)}; "
-                    f"additional={sorted(header-expected)}"
+                    f"{dataset}/{path.name}: missing={sorted(expected - header)}; "
+                    f"additional={sorted(header - expected)}"
                 )
     if problems:
         raise ValueError("Schema validation failed:\n" + "\n".join(problems))
@@ -148,6 +149,7 @@ def create_uniform_sample(
     desired_rows: int,
     seed: int,
     chunksize: int,
+    report_label_summary: bool = True,
 ) -> pd.DataFrame:
     probability = min(1.0, desired_rows / valid_population)
     rng = np.random.default_rng(seed)
@@ -170,19 +172,25 @@ def create_uniform_sample(
             selected_count += len(selected)
         print(
             f"[{number}/{len(files)}] {path.name}: selected={selected_count:,}; "
-            f"seconds={time.time()-start:.1f}"
+            f"seconds={time.time() - start:.1f}"
         )
     if not samples:
         raise RuntimeError(f"No rows were sampled from {dataset}.")
     sample = pd.concat(samples, ignore_index=True)
-    print(
-        f"{dataset}: rows={len(sample):,}; attacks={int(sample['target'].sum()):,}; "
-        f"attack_rate={sample['target'].mean():.6f}"
-    )
+    if report_label_summary:
+        print(
+            f"{dataset}: rows={len(sample):,}; "
+            f"attacks={int(sample['target'].sum()):,}; "
+            f"attack_rate={sample['target'].mean():.6f}"
+        )
+    else:
+        print(f"{dataset}: rows={len(sample):,}; label summary sealed")
     return sample
 
 
-def hash_partition(source: pd.DataFrame, predictors: list[str]) -> dict[str, pd.DataFrame]:
+def hash_partition(
+    source: pd.DataFrame, predictors: list[str]
+) -> dict[str, pd.DataFrame]:
     feature_hash = pd.util.hash_pandas_object(source[predictors], index=False).to_numpy(
         dtype="uint64"
     )
@@ -208,7 +216,9 @@ def save_outputs(
     imputer = SimpleImputer(strategy="median")
     imputer.fit(partitions["source_train"][predictors])
     for name, frame in partitions.items():
-        frame.to_parquet(output_dir / f"{name}.parquet", compression="zstd", index=False)
+        frame.to_parquet(
+            output_dir / f"{name}.parquet", compression="zstd", index=False
+        )
     target.to_parquet(
         output_dir / "target_test_sealed.parquet", compression="zstd", index=False
     )
@@ -229,7 +239,9 @@ def save_outputs(
             "target_test": len(target),
         },
     }
-    with (output_dir / "experiment_metadata.json").open("w", encoding="utf-8") as stream:
+    with (output_dir / "experiment_metadata.json").open(
+        "w", encoding="utf-8"
+    ) as stream:
         json.dump(metadata, stream, indent=2)
     print("Saved frozen partitions and source-fitted imputer to", output_dir)
 

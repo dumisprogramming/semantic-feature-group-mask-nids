@@ -18,6 +18,12 @@
 - `scripts/generate_figures.py`: deterministic reconstruction of manuscript Figures 1–5.
 - `scripts/verify_repository.py`: configuration, provenance, result, table and figure audit.
 - `scripts/validate_revision_v2_protocol.py`: deterministic materialization and verification of the frozen revision-v2 partitions, job matrix and protocol audit.
+- `scripts/run_revision_v2.py`: restartable, job-matrix-driven revision-v2 training, source evaluation, continuation gate and sealed-target evaluation.
+- `scripts/prepare_revision_v2_reverse.py`: gate-controlled reverse-direction sampling, partitioning, source-imputer fitting and artifact hashing.
+- `scripts/audit_revision_v2_run.py`: read-only audit of revision-v2 stage markers, artifact references and result-table invariants.
+- `tests/test_revision_v2_runner.py`: dependency-light tests for job counts, corruption budgets, matched development conditions, evaluation conditions and gate behavior.
+- `REVISION_V2_RUNBOOK.md`: restartable forward and conditional reverse execution sequence.
+- `REVISION_V2_IMPLEMENTATION_AUDIT.md`: pre-training implementation verification; it contains no research result.
 
 ## Intentionally excluded
 
